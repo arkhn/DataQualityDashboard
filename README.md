@@ -1,3 +1,60 @@
+# Installation at Arkhn
+
+To run the Data quality dashboard at Arkhn, do the following step:
+
+
+1. Install R (if you don't have it already): https://cran.r-project.org/bin/macosx/base/
+
+2. Install Java (if you don't have it already): https://www.oracle.com/java/technologies/downloads/#jdk24-mac
+
+3. Install [just](https://github.com/casey/just) 
+
+```bash
+brew install just
+```
+
+4. Clone the 3 necessary repositories **in the same folder**:
+
+```bash
+# for example
+mkdir DQD && cd DQD
+
+git clone git@github.com:arkhn/SqlRender.git
+git clone git@github.com:arkhn/DatabaseConnector.git
+git clone git@github.com:arkhn/DataQualityDashboard.git
+```
+
+5. Install necessary R packages:
+
+```bash
+cd DataQualityDashboard
+just install
+```
+
+6. Recompile project:
+
+```bash
+just all
+```
+
+7. *(Optional, for a better development environment)* Install radian
+
+```bash
+pipx install -U radian
+```
+
+8. *(Optional, for a better development environment)* Install the R VSCode extension (search REditorSupport)
+
+9. Copy `.env.example` and fill it with the correct values
+
+10. Launch the DataQualityDashboard:
+
+```bash
+just run-dqd
+```
+
+You can now develop on the project. See `just -l` for more possible operations. **Every time you make a modification in the code, you'll have to recompile the relevant part of the project using the just commands.**
+
 DataQualityDashboard
 ====================
 
