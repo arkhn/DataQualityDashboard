@@ -19,18 +19,15 @@ library(DatabaseConnector)
 
 # fill out the connection details -----------------------------------------------------------------------
 connectionDetails <- DatabaseConnector::createConnectionDetails(
-  dbms = "", 
-  user = "", 
-  password = "", 
-  server = "", 
-  port = "", 
-  extraSettings = "",
-  pathToDriver = ""
+  dbms = "clickhouse", 
+  user = "datalake", 
+  password = "CHANGEME", 
+  server = "data.arkhn.io"
 )
 
-cdmDatabaseSchema <- "yourCdmSchema" # the fully qualified database schema name of the CDM
-resultsDatabaseSchema <- "yourResultsSchema" # the fully qualified database schema name of the results schema (that you can write to)
-cdmSourceName <- "Your CDM Source" # a human readable name for your CDM source
+cdmDatabaseSchema <- "dbt_omop" # the fully qualified database schema name of the CDM
+resultsDatabaseSchema <- "result" # the fully qualified database schema name of the results schema (that you can write to)
+cdmSourceName <- "Dev OMOP result" # a human readable name for your CDM source
 cdmVersion <- "5.4" # the CDM version you are targetting. Currently supports 5.2, 5.3, and 5.4
 
 # determine how many threads (concurrent SQL sessions) to use ----------------------------------------
@@ -96,7 +93,8 @@ checkNames <- c() # Names can be found in inst/csv/OMOP_CDM_v5.3_Check_Descripti
 #   dplyr::pull(checkName)
 
 # which CDM tables to exclude? ------------------------------------
-tablesToExclude <- c("CONCEPT", "VOCABULARY", "CONCEPT_ANCESTOR", "CONCEPT_RELATIONSHIP", "CONCEPT_CLASS", "CONCEPT_SYNONYM", "RELATIONSHIP", "DOMAIN") # list of CDM table names to skip evaluating checks against; by default DQD excludes the vocab tables
+tablesToExclude <- c("CONCEPT", "VOCABULARY", "CONCEPT_ANCESTOR", "CONCEPT_RELATIONSHIP", "CONCEPT_CLASS", "CONCEPT_SYNONYM", "RELATIONSHIP", "DOMAIN", 
+    "PROVIDER", "DRUG_ERA", "DOSE_ERA", "SOURCE_TO_CONCEPT_MAP", "SPECIMEN", "PAYER_PLAN_PERIOD", "OBSERVATION_PERIOD", "METADATA", "DEVICE_EXPOSURE", "COST", "CONDITION_ERA", "COHORT", "COHORT_DEFINITION") # list of CDM table names to skip evaluating checks against; by default DQD excludes the vocab tables
 
 # run the job --------------------------------------------------------------------------------------
 DataQualityDashboard::executeDqChecks(connectionDetails = connectionDetails, 
